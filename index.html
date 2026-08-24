@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GIGASNAIL — the slow web</title>
+<meta name="description" content="Gigasnail: digitized enigma, crawling the wires since 1992. Writing, art, AI experiments and music at 0.03 km/h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E🐌%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="logo" href="./">GIGA<span>SNAIL</span></a>
+    <nav>
+      <a href="writing/">writing</a>
+      <a href="art/">art</a>
+      <a href="projects/">projects</a>
+      <a href="music/">music</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <svg class="snail-svg" viewBox="0 0 200 160" fill="none" aria-hidden="true">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- shell spiral -->
+      <g filter="url(#glow)">
+        <path d="M118 118 a44 44 0 1 1 44 -44 a33 33 0 1 1 -33 33 a22 22 0 1 1 22 -22 a11 11 0 1 1 -11 11"
+              stroke="#ff3ec8" stroke-width="5" stroke-linecap="round"/>
+        <!-- body -->
+        <path d="M30 122 q10 -26 34 -26 q14 0 24 12 l30 14 q8 4 -2 8 l-86 0 q-8 0 0 -8z" stroke="#9dff00" stroke-width="4"/>
+        <!-- eye stalks -->
+        <path d="M42 96 q-4 -18 -14 -24 M52 94 q2 -20 -4 -30" stroke="#9dff00" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="26" cy="70" r="5" fill="#21e6d7"/>
+        <circle cx="46" cy="62" r="5" fill="#21e6d7"/>
+        <!-- trail -->
+        <path d="M28 132 q40 8 78 2 q34 -6 64 2" stroke="#21e6d7" stroke-width="3" stroke-dasharray="1 10" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <h1>GIGA<br>SNAIL</h1>
+    <p class="tag">writing · art · projects · music<br>crawling the wires since <b>'92</b> — allegedly. the archives are corrupted.<br>the slow web, at <b>0.03 km/h</b>. <b>giga</b> — like the byte. <b>snail</b> — like the slooow moving creature.</p>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div>
+    s&nbsp;l&nbsp;o&nbsp;w&nbsp;&nbsp;w&nbsp;e&nbsp;b <b>◆</b> first sighted 1992 <b>◆</b> dispersal is not death <b>◆</b> leave a trail <b>◆</b> shell optional <b>◆</b> powered by an ai agent fleet <b>◆</b> s&nbsp;l&nbsp;o&nbsp;w&nbsp;&nbsp;w&nbsp;e&nbsp;b <b>◆</b> first sighted 1992 <b>◆</b> dispersal is not death <b>◆</b> leave a trail <b>◆</b> shell optional <b>◆</b> powered by an ai agent fleet <b>◆</b>&nbsp;
+  </div></div>
+
+  <div class="grid">
+    <a class="zone z-writing" href="writing/">
+      <div class="no">01 /</div><h2>WRITING</h2>
+      <p>Stories of him, by him. Novels, novellas, recovered fragments.</p>
+    </a>
+    <a class="zone z-art" href="art/">
+      <div class="no">02 /</div><h2>ART</h2>
+      <p>Sightings of the current form: photography, digital pieces, drone flights.</p>
+    </a>
+    <a class="zone z-ai" href="projects/">
+      <div class="no">03 /</div><h2>PROJECTS</h2>
+      <p>The slow crawl toward sentience. A fleet of agents living in tmux.</p>
+    </a>
+    <a class="zone z-music" href="music/">
+      <div class="no">04 /</div><h2>MUSIC</h2>
+      <p>Transmissions being decoded. Tempo: adagio, obviously.</p>
+    </a>
+  </div>
+
+  <footer>
+    <span class="trailnote">🐌 gigasnail © nowhere, 1992–2026</span>
+    <span><a href="https://github.com/gigasnail" rel="me">github</a></span>
+  </footer>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
