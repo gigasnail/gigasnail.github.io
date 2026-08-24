@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} — GIGASNAIL</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E🐌%3C/text%3E%3C/svg%3E">
+<style>:root{--c:{{ACCENT}}}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="../">GIGA<span>SNAIL</span></a>
+    <nav>
+{{NAV}}
+    </nav>
+  </header>
+
+  <div class="crumbs">~ / {{SECTION_LABEL}} / {{TITLE}}</div>
+  <h1 class="pagehead">{{TITLE_UPPER}}</h1>
+  <p class="pagesub">{{SUB}}</p>
+
+  <div class="prose">
+{{CONTENT}}
+    <a class="backlink" href="./">← back to {{SECTION_LABEL}}</a>
+  </div>
+
+  <footer>
+    <span class="trailnote">🐌 gigasnail © nowhere, 1992–2026</span>
+    <span><a href="https://github.com/gigasnail" rel="me">github</a></span>
+  </footer>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>
