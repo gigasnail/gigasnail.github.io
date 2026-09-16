@@ -58,6 +58,18 @@ let bestM = 0;
 let deathMsg = '';
 let muted = false;
 
+// ---------- scoreboard (gemmes i localStorage) ----------
+const SAVE_KEY = 'fredagsnat-skate';
+let board = [];            // top 5 runs, best first: {m, l, d}
+let lastRun = -1;          // this run's row in board, for highlight
+try{
+  const s = JSON.parse(localStorage.getItem(SAVE_KEY));
+  if (s){ board = s.board || []; bestM = s.best || 0; }
+}catch(e){}
+function saveBoard(){
+  try{ localStorage.setItem(SAVE_KEY, JSON.stringify({best: bestM, board})); }catch(e){}
+}
+
 const player = { y: GROUND-PH, vy: 0, jumps: 0, onGround: true };
 let hist = [];             // player height-above-ground history, for the dogs
 let obstacles = [], leaves = [], pops = [];
@@ -193,6 +205,13 @@ function step(){
       state = 'dead';
       const m = Math.round(dist/10);
       if (m > bestM) bestM = m;
+      const now = new Date();
+      const run = { m, l: leavesGot, d: now.getDate()+'/'+(now.getMonth()+1) };
+      board.push(run);
+      board.sort((a,b)=>b.m-a.m);
+      board.length = Math.min(board.length, 5);
+      lastRun = board.indexOf(run);
+      saveBoard();
       deathMsg = { cone:'Av — lige ind i keglen!',
                    cobble:'Brostenene vandt denne gang.',
                    rack:'Cykelstativet kom ud af ingenting!' }[o.type];
@@ -414,6 +433,10 @@ function drawTitle(){
   ctx.fillText('— med Remy & Lucy lige i hælene —', W/2, 110);
   ctx.fillStyle = C.textDim;
   ctx.fillText('saml blade · hop over forhindringer · hjelm på, selvfølgelig', W/2, 130);
+  if (bestM > 0){
+    ctx.fillStyle = C.accent;
+    ctx.fillText('bedste tur: '+bestM+' m', W/2, 142);
+  }
   if ((t/30|0)%2===0){
     ctx.fillStyle = C.helmet;
     ctx.fillText('tryk på SPACE eller tap for at starte', W/2, 156);
@@ -421,21 +444,35 @@ function drawTitle(){
 }
 
 function drawDead(){
-  overlay(.5);
+  overlay(.6);
   ctx.textAlign='center';
   ctx.fillStyle = C.helmet;
-  ctx.font='bold 14px ui-monospace, monospace';
-  ctx.fillText(deathMsg, W/2, 74);
+  ctx.font='bold 12px ui-monospace, monospace';
+  ctx.fillText(deathMsg, W/2, 52);
   ctx.font='8px ui-monospace, monospace';
   ctx.fillStyle = C.text;
-  ctx.fillText('Hjelmen holdt. Safety first.', W/2, 92);
+  ctx.fillText('Hjelmen holdt. Safety first.', W/2, 68);
   ctx.fillStyle = C.textDim;
   const m = Math.round(dist/10);
-  ctx.fillText('distance: '+m+' m   ·   blade: '+leavesGot, W/2, 112);
-  ctx.fillText('bedste tur: '+bestM+' m', W/2, 124);
+  ctx.fillText('distance: '+m+' m   ·   blade: '+leavesGot, W/2, 84);
+  // local top 5
+  ctx.fillStyle = C.accent;
+  ctx.fillText('— bedste ture —', W/2, 104);
+  for (let i=0;i<board.length;i++){
+    const b = board[i], y = 118 + i*11;
+    ctx.fillStyle = i===lastRun ? C.leaf : (i===0 ? C.text : C.textDim);
+    ctx.textAlign='left';
+    if (i===lastRun) ctx.fillText('▸', W/2-86, y);
+    ctx.fillText((i+1)+'.', W/2-74, y);
+    ctx.textAlign='right';
+    ctx.fillText(b.m+' m', W/2-8, y);
+    ctx.textAlign='left';
+    ctx.fillText(b.l+' blade · '+b.d, W/2+8, y);
+  }
+  ctx.textAlign='center';
   if ((t/30|0)%2===0){
     ctx.fillStyle = C.accent;
-    ctx.fillText('SPACE — én gang til?', W/2, 150);
+    ctx.fillText('SPACE — én gang til?', W/2, 186);
   }
   // dogs sit and wait, unbothered
   drawDog(0,0); drawDog(0,1);
