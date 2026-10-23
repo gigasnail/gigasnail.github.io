@@ -183,6 +183,35 @@ The `CONFIG` block at the top of `ShouldWeMow.js` lets you change:
 
 ---
 
+# 🔥 Training Streak
+
+`TrainingStreak.js` turns your Strava history into a GitHub-style grid. Each square is a day, and the brighter the orange, the longer you trained. It also shows your current streak.
+
+![Training Streak preview](streak-preview.png)
+
+- **Day streak:** consecutive days with a workout. If you haven't trained yet today, your streak stays alive until midnight, and the widget nudges you: *"Train today to keep it 🔥"*.
+- **Week streak:** consecutive weeks hitting your weekly goal (default 3 training days). This is the kinder streak, because rest days don't break it.
+- **Longest streak**, active days this year, and total time and distance.
+
+**Widgets:**
+- **small:** your streak and the last 9 weeks.
+- **medium:** day and week streaks, plus the last 14 weeks with month labels.
+- **large:** 22 weeks plus stats.
+- **lock screen:** rectangular, inline and circular.
+
+Tap the widget for the full view: the whole year (tap any day to see what you did, then tap an activity to open it in Strava), training days per week against your goal, and the last 30 days broken down by sport.
+
+**Strava:** it uses the same Strava connection as the Dashboard, so connect it there first (⚙︎ → Connect Strava). It keeps about a year of activities on your phone, checks for new ones every 15 minutes, and does a full re-sync once a day.
+
+### Tweak it
+The `CONFIG` block at the top of `TrainingStreak.js` lets you change:
+- `theme`: `"strava"` (orange) or `"github"` (green)
+- `weeklyGoal`, and the minutes it takes to reach each shade (`levels`)
+- `minMinutes`, so a 4-minute walk doesn't count
+- `sports`, to only count certain sports, e.g. `["Run", "Ride"]`
+
+---
+
 ## Installer (all scripts)
 
 Create a new script in Scriptable, paste this in and run it. Run it again any time to update them all.
@@ -190,7 +219,7 @@ Create a new script in Scriptable, paste this in and run it. Run it again any ti
 ```js
 const base = "https://raw.githubusercontent.com/gigasnail/gigasnail.github.io/iphone-dashboard/iphone-dashboard/";
 const fm = FileManager.iCloud();
-for (const name of ["Dashboard.js", "SkateCheck.js", "ShouldWeMow.js"]) {
+for (const name of ["Dashboard.js", "SkateCheck.js", "ShouldWeMow.js", "TrainingStreak.js"]) {
   fm.writeString(fm.joinPath(fm.documentsDirectory(), name), await new Request(base + name).loadString());
 }
 const a = new Alert(); a.title = "Installed ✅"; a.message = "All scripts are up to date."; a.addAction("OK"); await a.presentAlert();
