@@ -98,3 +98,58 @@ At the top of `Dashboard.js` there's a `CONFIG` block where you can:
 - **Weather says location unavailable:** allow location for Scriptable in Settings → Privacy → Location Services, or set `CONFIG.location`.
 - **Strava stopped working:** use ⚙︎ → Strava → Continue to sign in again. Your Client ID and Secret are remembered.
 - **Widget looks out of date:** iOS decides how often widgets refresh (roughly every 15–60 minutes). Opening the dashboard always fetches fresh data.
+
+---
+
+# 🛹 Skate Check: "Can I skate today?"
+
+`SkateCheck.js` is a separate widget that tells you whether the streets are skateable now, and when today's best dry window is.
+
+![Skate Check preview](skate-preview.png)
+
+**How it decides:** it tracks the last 24 hours of rain and how fast the ground dries (sun, wind, warmth and humidity speed this up, cold humid nights slow it down). So it knows the street is still wet a couple of hours after the rain stops. Each hour is then rated:
+
+| | When |
+|---|---|
+| ✅ **Go** | Dry ground, no rain, calm enough, not too cold |
+| 🤔 **Maybe** | Ground still drying, 35–60% chance of rain, gusty, cold (under 5°C) or dewy |
+| ❌ **No** | Raining, wet ground, rain likely, strong gusts (12 m/s+), snow or ice risk |
+
+**The verdict on your widget:**
+- **🛹 Go skate!**: dry right now, and it tells you until when
+- **⏳ Later today**: a dry window is coming, e.g. *Dry 16:00–19:00*
+- **🤔 Maybe**: skateable-ish, with the reason
+- **☔️ Not now**: with the next dry window, e.g. *Next: Tomorrow 10:00–15:00*
+
+It also schedules a **notification 30 minutes before today's dry window starts**, so you get a nudge without having to check.
+
+### Install
+Run the installer below (or copy `SkateCheck.js` into Scriptable's iCloud folder), then add a Scriptable widget and set Script to **SkateCheck**. All sizes work:
+- **small**: the verdict
+- **medium**: adds a colour-coded timeline of the next 15 hours
+- **large**: adds the best windows for the next 3 days
+- **lock screen**: rectangular, inline and circular
+
+Tap the widget, or run the script in Scriptable, for the full view. It has a 48-hour timeline (tap any hour to see why it's rated that way) and the best window for each of the next 4 days.
+
+### Tweak it
+The `CONFIG` block at the top of `SkateCheck.js` lets you change:
+- your skate hours (default 8:00–22:00)
+- the minimum temperature, the gust limit and the rain-chance cutoff
+- whether it only suggests windows in **daylight**
+- whether notifications are on, and how many minutes ahead they arrive
+
+---
+
+## Installer (both scripts)
+
+Create a new script in Scriptable, paste this in and run it. Run it again any time to update both scripts.
+
+```js
+const base = "https://raw.githubusercontent.com/gigasnail/gigasnail.github.io/iphone-dashboard/iphone-dashboard/";
+const fm = FileManager.iCloud();
+for (const name of ["Dashboard.js", "SkateCheck.js"]) {
+  fm.writeString(fm.joinPath(fm.documentsDirectory(), name), await new Request(base + name).loadString());
+}
+const a = new Alert(); a.title = "Installed ✅"; a.message = "Dashboard + SkateCheck are up to date."; a.addAction("OK"); await a.presentAlert();
+```
