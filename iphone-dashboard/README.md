@@ -141,15 +141,57 @@ The `CONFIG` block at the top of `SkateCheck.js` lets you change:
 
 ---
 
-## Installer (both scripts)
+# 🌱 Should We Mow?
 
-Create a new script in Scriptable, paste this in and run it. Run it again any time to update both scripts.
+`ShouldWeMow.js` answers both halves of the question: **does the lawn need it**, and **can you mow right now?**
+
+![Should We Mow preview](mow-preview.png)
+
+**Does it need it?** It estimates how much the grass has grown since the last mow from the daily temperature and rain. This uses the turf-science "growth potential" curve: cool-season grass grows fastest around 20°C and hardly at all below ~8°C, and dry spells slow it down. The lawn counts as **due** once it has grown about a third of your cut height (default: cut to 50 mm, so it's due at roughly +25 mm). In a cold spell it tells you the lawn is resting.
+
+**Can you mow now?** It rates each hour:
+- **Good:** dry grass and daylight.
+- **Meh:** grass a bit damp, a 40–60% chance of rain, soft ground after 10 mm+ of rain, very hot (30°C+), or very windy.
+- **No:** rain, wet grass (rain *or morning dew*), soggy ground after 20 mm+ of rain, frost, or dark.
+
+It only suggests windows during **neighbour-friendly hours**: weekdays 8–20, Saturday 9–18 and Sunday 10–18 by default, and you can change these. Windows must be long enough to finish the job (default 60 minutes).
+
+**What the widget says:**
+- **✂️ Mow today!** — "Good until 19:00"
+- **⏳ Later today** — "Good 13:00–19:00" (e.g. waiting for the dew to dry)
+- **😌 Not yet** — "Due in ~3 days (Mon)"
+- **🙅 Not right now** — "Next: Sat 10:00–17:00"
+- **💤 Lawn's resting** — too cold to grow
+- If the lawn is due tomorrow but tomorrow is a washout, it says **"Rain tomorrow!"** and suggests today.
+
+It also sends a **notification 30 minutes before** a good window on days the lawn is due.
+
+### Logging a mow (and sharing it with your household)
+
+Tap **✂️ We just mowed** in the app. Mows are saved as completed reminders in a **Reminders list called "Lawn"**, which is created automatically. **Share that list** (Reminders → Lawn → ⋯ → Share List) and everyone's phone sees the same mowing history, whoever did the mowing.
+
+**Hands-free option:** make a Shortcut with Scriptable's **Run Script** action, Script **ShouldWeMow**, Parameter `mowed`. Then just say *"Hey Siri, we mowed"*, or add it to your home screen as a one-tap button.
+
+The first time you open it, it asks roughly when you last mowed so it can start estimating straight away. You can fix the date later with **Change date**.
+
+### Tweak it
+The `CONFIG` block at the top of `ShouldWeMow.js` lets you change:
+- mowing hours for each weekday (`null` = never on that day)
+- `cutHeight`, how long a mow takes, and `grassType` (`"warm"` for Bermuda, zoysia and similar grasses)
+- `watered: true` if you water the lawn
+- notifications
+
+---
+
+## Installer (all scripts)
+
+Create a new script in Scriptable, paste this in and run it. Run it again any time to update them all.
 
 ```js
 const base = "https://raw.githubusercontent.com/gigasnail/gigasnail.github.io/iphone-dashboard/iphone-dashboard/";
 const fm = FileManager.iCloud();
-for (const name of ["Dashboard.js", "SkateCheck.js"]) {
+for (const name of ["Dashboard.js", "SkateCheck.js", "ShouldWeMow.js"]) {
   fm.writeString(fm.joinPath(fm.documentsDirectory(), name), await new Request(base + name).loadString());
 }
-const a = new Alert(); a.title = "Installed ✅"; a.message = "Dashboard + SkateCheck are up to date."; a.addAction("OK"); await a.presentAlert();
+const a = new Alert(); a.title = "Installed ✅"; a.message = "All scripts are up to date."; a.addAction("OK"); await a.presentAlert();
 ```
